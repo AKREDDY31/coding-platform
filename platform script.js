@@ -71,4 +71,4 @@ document.addEventListener("copy", (event) => {
 document.addEventListener("paste", (event) => {
     event.preventDefault();
     alert("Pasting is not allowed!");
-});    ,, this is my script . js ,,,  update it also
+});   
