@@ -15,8 +15,13 @@ function validateOTP() {
 
     if (generatedOTPs.has(userOTP) && !usedOTPs.has(userOTP)) {
         usedOTPs.add(userOTP); // Mark OTP as used
+        generatedOTPs.delete(userOTP); // Remove OTP from the stack
+
+        alert("The OTP is successfully logged into the server!"); // Pop-up message
+
         document.getElementById("otp-container").classList.add("hidden");
         document.getElementById("main-container").classList.remove("hidden");
+
         startTimer(60 * 60); // Start 60-minute timer
         preventTabSwitch();
     } else {
@@ -42,17 +47,22 @@ function startTimer(duration) {
     }, 1000);
 }
 
-// Redirect to compiler
+// Redirect to compiler inside the same tab (50% of screen)
 function redirect(language) {
     const links = {
         c: "https://www.onlinegdb.com/online_c_compiler",
         python: "https://www.onlinegdb.com/online_python_compiler",
         java: "https://www.onlinegdb.com/online_java_compiler"
     };
-    window.location.href = links[language];
+
+    document.getElementById("main-container").innerHTML = `
+        <div class="split-screen">
+            <iframe src="${links[language]}" frameborder="0"></iframe>
+        </div>
+    `;
 }
 
-// Prevent tab switching
+// Prevent tab switching (ends session on first switch)
 function preventTabSwitch() {
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
